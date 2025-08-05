@@ -8,14 +8,15 @@ def task3_wait_images():
     driver = webdriver.Chrome()
     url = "https://bonigarcia.dev/selenium-webdriver-java/loading-images.html"
     driver.get(url)
-    
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "image-container"))
+
+    # Ожидаем загрузку 3-й картинки
+    WebDriverWait(driver, 30).until(
+        EC.presence_of_element_located((By.ID, "image3"))
     )
-    
-    images = driver.find_elements(By.CSS_SELECTOR, "#image-container img")
-    print(images[2].get_attribute("src"))
-    
+
+    image3 = driver.find_element(By.ID, "image3")
+    print(image3.get_attribute("src"))
+
     driver.quit()
 
 

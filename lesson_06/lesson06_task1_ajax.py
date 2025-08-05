@@ -7,14 +7,14 @@ from selenium.webdriver.support import expected_conditions as EC
 def task1_ajax():
     driver = webdriver.Chrome()
     driver.get("http://uitestingplayground.com/ajax")
-    
+
     driver.find_element(By.ID, "ajaxButton").click()
-    
-    label = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "bg-success"))
+
+    label = WebDriverWait(driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "p.bg-success"))
     )
     print(label.text)
-    
+
     driver.quit()
 
 
