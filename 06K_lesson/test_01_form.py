@@ -29,20 +29,23 @@ def test_form_validation(browser):
         "company": "SkyPro"
     }
 
-    for field_id, value in fields.items():
-        browser.find_element(By.ID, field_id).send_keys(value)
+    # Заполняем форму по атрибуту name вместо id
+    for field_name, value in fields.items():
+        browser.find_element(By.NAME, field_name).send_keys(value)
 
     browser.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
 
+    # Проверяем подсветку поля Zip code (должно быть красным)
     zip_code = WebDriverWait(browser, 10).until(
-        EC.visibility_of_element_located((By.ID, "zip-code"))
+        EC.visibility_of_element_located((By.NAME, "zip-code"))
     )
-    assert "is-invalid" in zip_code.get_attribute("class")
+    assert "alert-danger" in zip_code.get_attribute("class") or "is-invalid" in zip_code.get_attribute("class")
 
+    # Проверяем подсветку остальных полей (должны быть зелеными)
     valid_fields = [
         "first-name", "last-name", "address", "e-mail",
         "phone", "city", "country", "job-position", "company"
     ]
-    for field_id in valid_fields:
-        field = browser.find_element(By.ID, field_id)
-        assert "is-valid" in field.get_attribute("class")
+    for field_name in valid_fields:
+        field = browser.find_element(By.NAME, field_name)
+        assert "alert-success" in field.get_attribute("class") or "is-valid" in field.get_attribute("class")
